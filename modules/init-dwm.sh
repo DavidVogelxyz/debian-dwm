@@ -2,13 +2,13 @@
 
 # Source code for DWM, etc.
 git clone https://github.com/davidvogelxyz/dmenu ~/.local/src/dmenu
-git clone https://github.com/davidvogelxyz/dwm-debian ~/.local/src/dwm-debian
+git clone https://github.com/davidvogelxyz/dwm ~/.local/src/dwm
 git clone https://github.com/davidvogelxyz/dwmblocks ~/.local/src/dwmblocks
 git clone https://github.com/davidvogelxyz/st ~/.local/src/st
 
 # Compile DWM
 [ -d ~/.local/src/dmenu ] && cd ~/.local/src/dmenu && sudo make install
-[ -d ~/.local/src/dwm-debian ] && cd ~/.local/src/dwm-debian && sudo make install
+[ -d ~/.local/src/dwm ] && cd ~/.local/src/dwm && sudo make install
 [ -d ~/.local/src/dwmblocks ] && cd ~/.local/src/dwmblocks && sudo make install
 [ -d ~/.local/src/st ] && cd ~/.local/src/st && sudo make install
 
