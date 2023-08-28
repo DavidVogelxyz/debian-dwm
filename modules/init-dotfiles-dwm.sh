@@ -38,6 +38,7 @@ git checkout voidrice/master -- .xprofile
 # git checkout voidrice/master -- .zprofile			# loading profile file earlier; also loading my own custom file
 
 curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/main/.config/lf/scope-debian -o ~/.config/lf/scope
+curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/main/.config/x11/xprofile -o ~/.config/x11/xprofile
 curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/main/.local/bin/statusbar/sb-price -o ~/.local/bin/statusbar/sb-price
 
 sudo rm -rv ~/.git

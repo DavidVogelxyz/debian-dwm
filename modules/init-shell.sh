@@ -1,21 +1,20 @@
 #!/bin/sh
 
 PS3="Configure for which operating system? "
-items=("Debian (includes Ubuntu)" "Arch Linux" "Artix Linux" "NixOS")
+items=("Debian (includes Ubuntu)" "Arch Linux (includes Artix)" "NixOS")
 
 select item in "${items[@]}" Quit
 do
     case $REPLY in
         1) echo "Selected '$item'"; installOS=deb; break;;
         2) echo "Selected '$item'"; installOS=arch; break;;
-        3) echo "Selected '$item' -- You probably want to install LARBS instead. Exiting now."; exit;;
-        4) echo "Selected '$item'"; installOS=nix ; break;;
+        3) echo "Selected '$item'"; installOS=nix ; break;;
         $((${#items[@]}+1))) echo "Exiting now."; exit;;
         *) echo "Unknown response. Try again. $REPLY";;
     esac
 done
 
-# Packages
+# Package dependency checks
 [ ! -e /usr/bin/curl ] && echo "curl is not installed on this computer. Please install curl before proceeding." && exit 1
 [ ! -e /usr/bin/git ] && echo "git is not installed on this computer. Please install git before proceeding." && exit 1
 
@@ -33,6 +32,8 @@ if [ $installOS = deb ] ; then
 	curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/main/.config/shell/aliasrc-debian -o ~/.config/shell/aliasrc
 elif [ $installOS = arch ] ; then
 	curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/main/.config/shell/aliasrc-arch -o ~/.config/shell/aliasrc
+elif [ $installOS = nix ] ; then
+	curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/main/.config/shell/aliasrc-nix -o ~/.config/shell/aliasrc
 elif [ $installOS = * ] ; then
 	echo "No alias file found for that OS!"
 fi

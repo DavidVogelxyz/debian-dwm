@@ -30,7 +30,7 @@ sudo nala install -y \
 	git \
 	gnome-keyring \
 	htop \
-	keepass2 \
+	keepassxc \
 	lf \
 	libnotify-bin \
 	locales \
