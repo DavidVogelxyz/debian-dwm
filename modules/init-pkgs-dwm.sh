@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # To compile `dwm` on Debian:
+#neovim                 # removed because Debian version is too old
 sudo nala install -y \
 	build-essential \
 	libx11-dev \
@@ -43,7 +44,6 @@ sudo nala install -y \
 	mpd \
 	mpv \
 	ncmpcpp \
-	neovim \
 	newsboat \
 	nfs-common \
 	nsxiv \

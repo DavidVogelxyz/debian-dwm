@@ -1,16 +1,19 @@
 #!/bin/sh
 
-# Source code for DWM, etc.
-git clone https://github.com/davidvogelxyz/dmenu ~/.local/src/dmenu
-git clone https://github.com/davidvogelxyz/dwm ~/.local/src/dwm
-git clone https://github.com/davidvogelxyz/dwmblocks ~/.local/src/dwmblocks
-git clone https://github.com/davidvogelxyz/st ~/.local/src/st
+# While working directory is still the 'debian-dwm' repo
+[ ! -e ~/.local/share/Emerald-wallpaper_1920x1080.png ] && cp Emerald-wallpaper_1920x1080.png ~/.local/share
+[ -e ~/.local/share/bg ] && rm ~/.local/share/bg
+ln -s ~/.local/share/Emerald-wallpaper_1920x1080.png ~/.local/share/bg
 
-# Compile DWM
-[ -d ~/.local/src/dmenu ] && cd ~/.local/src/dmenu && sudo make install
-[ -d ~/.local/src/dwm ] && cd ~/.local/src/dwm && sudo make install
-[ -d ~/.local/src/dwmblocks ] && cd ~/.local/src/dwmblocks && sudo make install
-[ -d ~/.local/src/st ] && cd ~/.local/src/st && sudo make install
+# Compile dwm and other suckless tools from source code
+repos=(
+"dmenu"
+"dwm"
+"dwmblocks"
+"st"
+)
 
-[ ! -e ~/.local/share/Emerald-wallpaper_1920x1080.png ] && cp ~/.local/src/debian-dwm/Emerald-wallpaper_1920x1080.png ~/.local/share
-rm ~/.local/share/bg ; ln -s Emerald-wallpaper_1920x1080.png ~/.local/share/bg
+for repo in "${repos[@]}"; do
+    git clone https://github.com/DavidVogelxyz/$repo ~/.local/src/$repo > /dev/null 2>&1
+    [ -d ~/.local/src/$repo ] && cd ~/.local/src/$repo && sudo make install > /dev/null 2>&1
+done
