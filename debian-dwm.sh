@@ -1,22 +1,44 @@
 #!/bin/sh
 
-# Packages
-echo "Updating package repositories..." && sudo apt update >/dev/null 2>&1
-[ ! -e /usr/bin/nala ] && echo "nala is not installed. Installing nala..." && sudo apt install nala -y >/dev/null 2>&1
-[ ! -e /usr/bin/curl ] && echo "curl is not installed. Installing curl..." && sudo nala install curl -y >/dev/null 2>&1
-[ ! -e /usr/bin/git ] && echo "git is not installed. Installing git..." && sudo nala install git -y >/dev/null 2>&1
-[ ! -e /usr/bin/zsh ] && echo "zsh is not installed. Installing zsh..." && sudo nala install zsh -y >/dev/null 2>&1
+# Package dependency checks
+echo "Updating package repositories..."
+pkg="nala"
+[ -e /usr/bin/$pkg ] && sudo nala update >/dev/null 2>&1 && unset pkg
+[[ $pkg = "nala" ]] && sudo apt update >/dev/null 2>&1 && echo "$pkg is not installed. Installing $pkg now..." && sudo apt install $pkg -y >/dev/null 2>&1
 
-# Installation
-[ ! -d modules/already-run ] && mkdir -p modules/already-run
-[ ! -f modules/already-run/init-shell.sh ] && ( ( bash modules/init-shell.sh && mv -v modules/init-shell.sh modules/already-run/init-shell.sh ) || exit 1 ) || break
-[ ! -f modules/already-run/init-p10k.sh ] && ( ( bash modules/init-p10k.sh && mv -v modules/init-p10k.sh modules/already-run/init-p10k.sh ) || exit 1 ) || break
-[ ! -f modules/already-run/init-dotfiles-dwm.sh ] && ( ( bash modules/init-dotfiles-dwm.sh && mv -v modules/init-dotfiles-dwm.sh modules/already-run/init-dotfiles-dwm.sh ) || exit 1 ) || break
-[ ! -f modules/already-run/init-pkgs-dwm.sh ] && ( ( bash modules/init-pkgs-dwm.sh && mv -v modules/init-pkgs-dwm.sh modules/already-run/init-pkgs-dwm.sh ) || exit 1 ) || break
-[ ! -f modules/already-run/init-dwm.sh ] && ( ( bash modules/init-dwm.sh && mv -v modules/init-dwm.sh modules/already-run/init-dwm.sh ) || exit 1 ) || break
-[ ! -f modules/already-run/init-autologin.sh ] && ( ( bash modules/init-autologin.sh && mv -v modules/init-autologin.sh modules/already-run/init-autologin.sh ) || exit 1 ) || break
-[ ! -f modules/already-run/init-nixpkgmgr.sh ] && ( ( bash modules/init-nixpkgmgr.sh && mv -v modules/init-nixpkgmgr.sh modules/already-run/init-nixpkgmgr.sh ) || exit 1 ) || break
-# [ ! -f modules/already-run/init-nixpkgs.sh ] && ( ( bash modules/init-nixpkgs.sh && mv -v modules/init-nixpkgs.sh modules/already-run/init-nixpkgs.sh ) || exit 1 ) || break
+pkgs=(
+"cmake"
+"curl"
+"git"
+"unzip"
+"zsh"
+)
 
-# cat modules/init-remainder.sh
-echo "Remember to 'bash modules/init-nixpkgs.sh'!"
+for pkg in "${pkgs[@]}"; do
+    [ ! -e /usr/bin/$pkg ] && echo "$pkg is not installed on this computer. Installing $pkg now..." && sudo nala install $pkg -y >/dev/null 2>&1
+done
+
+pkg="gettext" && [ ! -e /usr/lib/x86_64-linux-gnu/gettext ] && echo "$pkg is not installed on this computer. Installing $pkg now..." && sudo nala install $pkg -y >/dev/null 2>&1
+pkg="rg" && [ ! -e /usr/bin/$pkg ] && pkg="ripgrep" && echo "$pkg is not installed on this computer. Installing $pkg now..." && sudo nala install $pkg -y >/dev/null 2>&1
+
+# Installation of modules
+mkdir -p modules/completed
+
+modules=(
+"init-shell.sh"
+"init-p10k.sh"
+"init-dotfiles-dwm.sh"
+"init-pkgs-dwm.sh"
+"init-dwm.sh"
+"init-autologin.sh"
+"init-nixpkgmgr.sh"
+)
+
+for module in "${modules[@]}"; do
+    [ -f modules/$module ] && bash modules/$module && mv modules/$module modules/completed
+    [ -f modules/$module ] && echo "failed at $module" && gtfo="kthxbye" && break
+done
+
+[[ $gtfo = "kthxbye" ]] && exit 1
+
+echo "debian-dwm installation complete!" && echo "Remember to 'bash modules/init-nixpkgs.sh'!"

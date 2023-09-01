@@ -1,44 +1,52 @@
 #!/bin/sh
 
-# Preparations
+# Directories
 [ ! -d ~/.cache/zsh ] && mkdir -p ~/.cache/zsh
-# [ ! -d ~/.local/share ] && mkdir -p ~/.local/share	# already there? not sure why commented out but seems to be okay
-# [ ! -d ~/.local/src ] && mkdir -p ~/.local/src	# gets created with `git clone`
+#[ ! -d ~/.local/share ] && mkdir -p ~/.local/share     # already there? believe it should always already be there
+#[ ! -d ~/.local/src ] && mkdir -p ~/.local/src         # gets created with `git clone`
 
 # Dotfiles for DWM, etc.
-cd ~
-git init
+cd ~ && git init > /dev/null 2>&1
 git remote add voidrice https://github.com/lukesmithxyz/voidrice.git
-git fetch voidrice
-git checkout voidrice/master -- .config/dunst
-git checkout voidrice/master -- .config/fontconfig/fonts.conf
-git checkout voidrice/master -- .config/gtk-2.0
-git checkout voidrice/master -- .config/gtk-3.0
-git checkout voidrice/master -- .config/lf
-git checkout voidrice/master -- .config/mimeapps.list
-git checkout voidrice/master -- .config/mpd
-git checkout voidrice/master -- .config/mpv
-git checkout voidrice/master -- .config/newsboat
-git checkout voidrice/master -- .config/pipewire
-git checkout voidrice/master -- .config/pulse
-git checkout voidrice/master -- .config/shell/bm-dirs
-git checkout voidrice/master -- .config/shell/bm-files
-git checkout voidrice/master -- .config/shell/inputrc
-# git checkout voidrice/master -- .config/shell/profile		# loading profile file earlier; also loading my own custom file
-git checkout voidrice/master -- .config/sxiv
-git checkout voidrice/master -- .config/user-dirs.dirs
-git checkout voidrice/master -- .config/wal
-git checkout voidrice/master -- .config/wget
-git checkout voidrice/master -- .config/x11
-git checkout voidrice/master -- .config/zathura
-# git checkout voidrice/master -- .config/zsh			# loading zsh file earlier; also loading my own custom file
-git checkout voidrice/master -- .gtkrc-2.0
-git checkout voidrice/master -- .local/
-git checkout voidrice/master -- .xprofile
-# git checkout voidrice/master -- .zprofile			# loading profile file earlier; also loading my own custom file
+git fetch voidrice > /dev/null 2>&1
 
-curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/main/.config/lf/scope-debian -o ~/.config/lf/scope
-curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/main/.config/x11/xprofile -o ~/.config/x11/xprofile
-curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/main/.local/bin/statusbar/sb-price -o ~/.local/bin/statusbar/sb-price
+configs=(
+".config/dunst"
+".config/fontconfig/fonts.conf"
+".config/gtk-2.0"
+".config/gtk-3.0"
+".config/lf"
+".config/mimeapps.list"
+".config/mpd"
+".config/mpv"
+".config/newsboat"
+".config/pipewire"
+".config/pulse"
+".config/shell/bm-dirs"
+".config/shell/bm-files"
+".config/shell/inputrc"
+".config/sxiv"
+".config/user-dirs.dirs"
+".config/wal"
+".config/wget"
+".config/x11"
+".config/zathura"
+".gtkrc-2.0"
+".local/"
+)
 
-sudo rm -rv ~/.git
+for config in "${configs[@]}"; do
+    git checkout voidrice/master -- $config
+done
+
+sudo rm -rv ~/.git > /dev/null 2>&1
+
+files=(
+".config/lf/scope-debian"
+".config/x11/xprofile"
+".local/bin/statusbar/sb-price"
+)
+
+for file in "${files[@]}"; do
+    curl -L https://raw.githubusercontent.com/DavidVogelxyz/dotfiles/master/$file -o ~/$file > /dev/null 2>&1
+done
