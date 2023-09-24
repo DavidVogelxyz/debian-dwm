@@ -6,7 +6,7 @@
 #[ ! -d ~/.local/src ] && mkdir -p ~/.local/src         # gets created with `git clone`
 
 # Dotfiles for DWM, etc.
-cd ~ && git init > /dev/null 2>&1
+cd && git init > /dev/null 2>&1
 git remote add voidrice https://github.com/lukesmithxyz/voidrice.git
 git fetch voidrice > /dev/null 2>&1
 
@@ -39,7 +39,7 @@ for config in "${configs[@]}"; do
     git checkout voidrice/master -- $config
 done
 
-sudo rm -rv ~/.git > /dev/null 2>&1
+rm -rf .git
 
 files=(
 ".config/lf/scope-debian"

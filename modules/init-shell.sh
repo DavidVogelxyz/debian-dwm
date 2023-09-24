@@ -66,7 +66,6 @@ done
 
 # Add directories
 [ ! -d ~/.cache/bash ] && mkdir -p ~/.cache/bash
-[ ! -d ~/.cache/shell ] && mkdir -p ~/.cache/shell
 [ ! -d ~/.cache/zsh ] && mkdir -p ~/.cache/zsh
 
 # Unconditional actions
@@ -76,8 +75,7 @@ git fetch dotfiles > /dev/null 2>&1
 git checkout dotfiles/master -- .
 [ -f ~/.bashrc ] && rm ~/.bashrc ; ln -s .config/bash/.bashrc ~/.bashrc
 [ -f ~/.profile ] && rm ~/.profile ; ln -s .config/shell/profile ~/.profile
-sudo rm -r .git > /dev/null 2>&1
-rm LICENSE && rm README.md
+rm -rf .git LICENSE README.md
 echo
 
 # Conditional actions
@@ -89,7 +87,7 @@ if [ $linux = deb ]; then
     mv ~/.config/shell/aliasrc-debian ~/.config/shell/aliasrc
     # update neovim
     [ ! -d ~/.local/src/neovim ] && echo "cloning neovim. this may take a moment." && git clone https://github.com/neovim/neovim.git ~/.local/src/neovim > /dev/null 2>&1
-    cd ~/.local/src/neovim && git checkout tags/stable > /dev/null 2>&1
+    cd ~/.local/src/neovim && git checkout stable > /dev/null 2>&1
     echo "packaging neovim. this may take up to TEN whole moments." && make CMAKE_BUILD_TYPE=RelWithDebInfo > /dev/null 2>&1
     echo "updating neovim!" && sudo make install > /dev/null 2>&1
     echo "removing the old neovim." && sudo nala remove neovim -y > /dev/null 2>&1
