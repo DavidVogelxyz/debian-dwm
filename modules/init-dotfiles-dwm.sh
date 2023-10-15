@@ -44,6 +44,7 @@ rm -rf .git
 files=(
 ".config/lf/scope-debian"
 ".config/x11/xprofile"
+".local/bin/statusbar/sb-clock"
 ".local/bin/statusbar/sb-price"
 )
 
