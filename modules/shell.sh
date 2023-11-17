@@ -4,8 +4,6 @@
 # VARIABLES
 ################################
 
-panicdeps="'$pkg' is not installed on this computer. Please install '$pkg' before proceeding."
-
 types=(
 "Debian (includes Ubuntu)"
 "Arch Linux (includes Artix)"
@@ -39,10 +37,10 @@ buildneovimdependencychecks() {
         )
 
         for pkg in "${pkgs[@]}"; do
-            [ ! -e /usr/bin/$pkg ] && echo "$panicdeps" && needpkg="yes"
+            [ ! -e /usr/bin/$pkg ] && installcomment && needpkg="yes"
         done
 
-        pkg="gettext" && [ ! -e /usr/lib/x86_64-linux-gnu/$pkg ] && echo "$panicdeps" && needpkg="yes"
+        pkg="gettext" && [ ! -e /usr/lib/x86_64-linux-gnu/$pkg ] && installcomment && needpkg="yes"
 
         [[ $needpkg = "yes" ]] && exit 1
     fi
@@ -67,12 +65,16 @@ dependencychecks() {
     )
 
     for pkg in "${pkgs[@]}"; do
-        [ ! -e /usr/bin/$pkg ] && echo "$panicdeps" && needpkg="yes"
+        [ ! -e /usr/bin/$pkg ] && installcomment && needpkg="yes"
     done
 
-    pkg="rg" && [ ! -e /usr/bin/$pkg ] && pkg="ripgrep" && echo "$panicdeps" && needpkg="yes"
+    pkg="rg" && [ ! -e /usr/bin/$pkg ] && pkg="ripgrep" && installcomment && needpkg="yes"
 
     [[ $needpkg = "yes" ]] && exit 1
+}
+
+installcomment() {
+    echo "'$pkg' is not yet installed on this computer. Please install '$pkg' before proceeding."
 }
 
 interactivebit() {

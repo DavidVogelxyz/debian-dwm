@@ -28,9 +28,7 @@ changeshelltozsh() {
 
 dependencychecks() {
     for pkg in "${pkgs[@]}"; do
-        [ ! -e /usr/bin/$pkg ] \
-            && echo "'$pkg' is not installed on this computer. Please install '$pkg' before proceeding." \
-            && needpkg="yes"
+        [ ! -e /usr/bin/$pkg ] && installcomment && needpkg="yes"
     done
 
     [[ $needpkg = "yes" ]] && exit 1
@@ -39,6 +37,10 @@ dependencychecks() {
 directorycheck() {
     [ ! -d /usr/local/share/fonts/m/ ] && sudo mkdir -p /usr/local/share/fonts/m/
     [ ! -d ~/.cache/zsh ] && mkdir -p ~/.cache/zsh
+}
+
+installcomment() {
+    echo "'$pkg' is not yet installed on this computer. Please install '$pkg' before proceeding."
 }
 
 installfonts() {
