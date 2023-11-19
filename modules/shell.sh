@@ -124,6 +124,8 @@ unconditionalactions() {
     [ -f ~/.bashrc ] && rm ~/.bashrc ; ln -s .config/bash/.bashrc ~/.bashrc
     [ -f ~/.profile ] && rm ~/.profile ; ln -s .config/shell/profile ~/.profile
     rm -rf .git LICENSE README.md
+
+    git clone https://github.com/DavidVogelxyz/nvim.git ~/.config/nvim
     echo
 }
 
