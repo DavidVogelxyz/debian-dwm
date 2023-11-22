@@ -125,7 +125,7 @@ unconditionalactions() {
     [ -f ~/.profile ] && rm ~/.profile ; ln -s .config/shell/profile ~/.profile
     rm -rf .git LICENSE README.md
 
-    git clone https://github.com/DavidVogelxyz/nvim.git ~/.config/nvim
+    git clone https://github.com/DavidVogelxyz/nvim.git ~/.config/nvim > /dev/null 2>&1
     echo
 }
 
