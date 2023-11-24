@@ -15,49 +15,6 @@ types=(
 # FUNCTIONS
 ################################
 
-buildneovim() {
-    [ ! -d ~/.local/src/neovim ] \
-        && echo "cloning neovim. this may take a moment." \
-        && git clone https://github.com/neovim/neovim.git ~/.local/src/neovim > /dev/null 2>&1
-    cd ~/.local/src/neovim && git checkout stable > /dev/null 2>&1
-    echo "packaging neovim. this may take up to TEN whole moments, depending on your computer's hardware." \
-        && make CMAKE_BUILD_TYPE=RelWithDebInfo > /dev/null 2>&1
-    echo "updating neovim!" && sudo make install > /dev/null 2>&1
-    echo "removing the old neovim." && sudo nala remove neovim -y > /dev/null 2>&1
-    echo "For PATH to reset on neovim, close the terminal and open a new shell."
-}
-
-buildneovimdependencychecks() {
-    if [ $linux = debian ]; then
-
-        pkgs=(
-        "cmake"
-        "nala"
-        "unzip"
-        )
-
-        for pkg in "${pkgs[@]}"; do
-            [ ! -e /usr/bin/$pkg ] && installcomment && needpkg="yes"
-        done
-
-        pkg="gettext" && [ ! -e /usr/lib/x86_64-linux-gnu/$pkg ] && installcomment && needpkg="yes"
-
-        [[ $needpkg = "yes" ]] && exit 1
-    fi
-}
-
-completiontext() {
-    echo "Remember to refresh the shell by closing this terminal session and opening a new one!"
-    echo "Also, neovim may throw some error messages when running for the first time. this is normal -- just press enter a bunch and let the plugins install!"
-}
-
-conditionalactions() {
-    [[ $l33thax = "yes" ]] && echo 'require("lsp-v2")' > ~/.config/nvim/init.lua || rm ~/.config/nvim/after/plugin/lsp.lua
-
-    cp ~/.config/shell/aliasrc-$linux ~/.config/shell/aliasrc && rm ~/.config/shell/aliasrc-*
-    [ $linux = debian ] && buildneovim
-}
-
 dependencychecks() {
     pkgs=(
     "curl"
@@ -102,6 +59,25 @@ question1() {
     buildneovimdependencychecks
 }
 
+buildneovimdependencychecks() {
+    if [ $linux = debian ]; then
+
+        pkgs=(
+        "cmake"
+        "nala"
+        "unzip"
+        )
+
+        for pkg in "${pkgs[@]}"; do
+            [ ! -e /usr/bin/$pkg ] && installcomment && needpkg="yes"
+        done
+
+        pkg="gettext" && [ ! -e /usr/lib/x86_64-linux-gnu/$pkg ] && installcomment && needpkg="yes"
+
+        [[ $needpkg = "yes" ]] && exit 1
+    fi
+}
+
 question2() {
     echo "Do you plan to use neovim for coding at any point in the future with this machine?"
 
@@ -127,6 +103,30 @@ unconditionalactions() {
 
     git clone https://github.com/DavidVogelxyz/nvim.git ~/.config/nvim > /dev/null 2>&1
     echo
+}
+
+conditionalactions() {
+    [[ $l33thax = "yes" ]] && echo 'require("lsp-v2")' > ~/.config/nvim/init.lua || rm ~/.config/nvim/after/plugin/lsp.lua
+
+    cp ~/.config/shell/aliasrc-$linux ~/.config/shell/aliasrc && rm ~/.config/shell/aliasrc-*
+    [ $linux = debian ] && buildneovim
+}
+
+buildneovim() {
+    [ ! -d ~/.local/src/neovim ] \
+        && echo "cloning neovim. this may take a moment." \
+        && git clone https://github.com/neovim/neovim.git ~/.local/src/neovim > /dev/null 2>&1
+    cd ~/.local/src/neovim && git checkout stable > /dev/null 2>&1
+    echo "packaging neovim. this may take up to TEN whole moments, depending on your computer's hardware." \
+        && make CMAKE_BUILD_TYPE=RelWithDebInfo > /dev/null 2>&1
+    echo "updating neovim!" && sudo make install > /dev/null 2>&1
+    echo "removing the old neovim." && sudo nala remove neovim -y > /dev/null 2>&1
+    echo "For PATH to reset on neovim, close the terminal and open a new shell."
+}
+
+completiontext() {
+    echo "Remember to refresh the shell by closing this terminal session and opening a new one!"
+    echo "Also, neovim may throw some error messages when running for the first time. this is normal -- just press enter a bunch and let the plugins install!"
 }
 
 ################################

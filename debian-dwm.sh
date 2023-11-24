@@ -18,8 +18,11 @@ modules=(
 # FUNCTIONS
 ################################
 
-completiontext() {
-    echo "debian-dwm installation complete!" && echo "Remember to 'bash modules/nixpkgs.sh'!"
+nalacheck() {
+    echo "Updating package repositories..."
+    [ -e /usr/bin/nala ] && sudo nala update >/dev/null 2>&1
+    [ ! -e /usr/bin/nala ] && sudo apt update >/dev/null 2>&1 \
+        && pkg="nala" && installcomment && sudo apt install $pkg -y >/dev/null 2>&1
 }
 
 installcomment() {
@@ -65,11 +68,8 @@ moduleloop() {
     done
 }
 
-nalacheck() {
-    echo "Updating package repositories..."
-    [ -e /usr/bin/nala ] && sudo nala update >/dev/null 2>&1
-    [ ! -e /usr/bin/nala ] && sudo apt update >/dev/null 2>&1 \
-        && pkg="nala" && installcomment && sudo apt install $pkg -y >/dev/null 2>&1
+completiontext() {
+    echo "debian-dwm installation complete!" && echo "Remember to 'bash modules/nixpkgs.sh'!"
 }
 
 ################################
