@@ -21,11 +21,6 @@ pkgs=(
 # FUNCTIONS
 ################################
 
-changeshelltozsh() {
-    echo "You will be asked for your password in order to change the default shell to zsh. Please enter your password now."
-    chsh -s /usr/bin/zsh || exit 1
-}
-
 dependencychecks() {
     for pkg in "${pkgs[@]}"; do
         [ ! -e /usr/bin/$pkg ] && installcomment && needpkg="yes"
@@ -34,13 +29,13 @@ dependencychecks() {
     [[ $needpkg = "yes" ]] && exit 1
 }
 
+installcomment() {
+    echo "'$pkg' is not yet installed on this computer. Please install '$pkg' before proceeding."
+}
+
 directorycheck() {
     [ ! -d /usr/local/share/fonts/m/ ] && sudo mkdir -p /usr/local/share/fonts/m/
     [ ! -d ~/.cache/zsh ] && mkdir -p ~/.cache/zsh
-}
-
-installcomment() {
-    echo "'$pkg' is not yet installed on this computer. Please install '$pkg' before proceeding."
 }
 
 installfonts() {
@@ -58,6 +53,11 @@ installfonts() {
 installpowerlevel10k() {
     [ ! -d ~/.local/src/powerlevel10k ] \
         && git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.local/src/powerlevel10k > /dev/null 2>&1
+}
+
+changeshelltozsh() {
+    echo "You will be asked for your password in order to change the default shell to zsh. Please enter your password now."
+    chsh -s /usr/bin/zsh || exit 1
 }
 
 ################################
