@@ -49,7 +49,7 @@ question1() {
             1) linux=debian; break;;
             2) linux=arch; break;;
             3) linux=nix ; break;;
-            4) echo "Exiting now." && exit;;
+            4) echo "Exiting now." && exit 1;;
             *) echo "Unknown response. Try again. $REPLY";;
         esac
     done
