@@ -99,6 +99,7 @@ unconditionalactions() {
     git checkout dotfiles/master -- .
     [ -f ~/.bashrc ] && rm ~/.bashrc ; ln -s .config/bash/.bashrc ~/.bashrc
     [ -f ~/.profile ] && rm ~/.profile ; ln -s .config/shell/profile ~/.profile
+    sed -i 's/\/usr\/share\/zsh\/plugins\/fast-syntax-highlighting\/fast-syntax-highlighting.plugin.zsh/\/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh/g' ~/.config/zsh/.zshrc
     rm -rf .git LICENSE README.md
 
     git clone https://github.com/DavidVogelxyz/nvim.git ~/.config/nvim > /dev/null 2>&1
