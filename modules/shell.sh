@@ -19,6 +19,7 @@ dependencychecks() {
     pkgs=(
     "curl"
     "git"
+    "stow"
     )
 
     for pkg in "${pkgs[@]}"; do
@@ -96,24 +97,23 @@ question2() {
 unconditionalactions() {
     [ ! -d ~/.cache/bash ] && mkdir -p ~/.cache/bash
     [ ! -d ~/.cache/zsh ] && mkdir -p ~/.cache/zsh
+    [ ! -d ~/.local/src ] && mkdir -p ~/.local/src
 
-    cd && git init > /dev/null 2>&1
-    git remote add dotfiles https://github.com/DavidVogelxyz/dotfiles.git
-    git fetch dotfiles > /dev/null 2>&1
-    git checkout dotfiles/master -- .
+    git clone https://github.com/DavidVogelxyz/dotfiles.git ~/.dotfiles > /dev/null 2>&1
+    ln -s ~/.dotfiles ~/.local/src/dotfiles
+    cd ~/.dotfiles && stow . ; cd
     [ -f ~/.bashrc ] && rm ~/.bashrc ; ln -s .config/bash/.bashrc ~/.bashrc
     [ -f ~/.profile ] && rm ~/.profile ; ln -s .config/shell/profile ~/.profile
-    sed -i 's/\/usr\/share\/zsh\/plugins\/fast-syntax-highlighting\/fast-syntax-highlighting.plugin.zsh/\/usr\/share\/zsh-syntax-highlighting\/zsh-syntax-highlighting.zsh/g' ~/.config/zsh/.zshrc
-    rm -rf .git LICENSE README.md
+    ln -s ~/.config/shell/aliasrc-$linux ~/.config/shell/aliasrc
 
-    git clone https://github.com/DavidVogelxyz/nvim.git ~/.config/nvim > /dev/null 2>&1
+    git clone https://github.com/DavidVogelxyz/nvim.git ~/.local/src/nvim > /dev/null 2>&1
+    ln -s ~/.local/src/nvim ~/.config/nvim
     echo
 }
 
 conditionalactions() {
     [[ $l33thax = "yes" ]] && echo 'require("lsp-v2")' > ~/.config/nvim/init.lua || rm ~/.config/nvim/after/plugin/lsp.lua
 
-    cp ~/.config/shell/aliasrc-$linux ~/.config/shell/aliasrc && rm ~/.config/shell/aliasrc-*
     [ $linux = debian ] && buildneovim
 }
 
