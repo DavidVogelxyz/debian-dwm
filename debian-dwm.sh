@@ -46,7 +46,7 @@ installloop() {
 }
 
 installpkg() {
-    sudo nala install $pkg -y >/dev/null 2>&1
+    sudo apt install $pkg -y >/dev/null 2>&1
 }
 
 installspecial() {

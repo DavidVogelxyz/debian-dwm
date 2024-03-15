@@ -22,16 +22,20 @@ dependencychecks() {
     )
 
     for pkg in "${pkgs[@]}"; do
-        [ ! -e /usr/bin/$pkg ] && installcomment && needpkg="yes"
+        [ ! -e /usr/bin/$pkg ] && installcomment && installpkg
     done
 
-    pkg="rg" && [ ! -e /usr/bin/$pkg ] && pkg="ripgrep" && installcomment && needpkg="yes"
+    pkg="rg" && [ ! -e /usr/bin/$pkg ] && pkg="ripgrep" && installcomment && installpkg
 
     [[ $needpkg = "yes" ]] && exit 1
 }
 
 installcomment() {
-    echo "'$pkg' is not yet installed on this computer. Please install '$pkg' before proceeding."
+    echo "'$pkg' is not yet installed on this computer. Installing '$pkg' now..."
+}
+
+installpkg() {
+    sudo apt install $pkg -y >/dev/null 2>&1
 }
 
 interactivebit() {
@@ -69,10 +73,10 @@ buildneovimdependencychecks() {
         )
 
         for pkg in "${pkgs[@]}"; do
-            [ ! -e /usr/bin/$pkg ] && installcomment && needpkg="yes"
+            [ ! -e /usr/bin/$pkg ] && installcomment && installpkg
         done
 
-        pkg="gettext" && [ ! -e /usr/lib/x86_64-linux-gnu/$pkg ] && installcomment && needpkg="yes"
+        pkg="gettext" && [ ! -e /usr/lib/x86_64-linux-gnu/$pkg ] && installcomment && installpkg
 
         [[ $needpkg = "yes" ]] && exit 1
     fi
@@ -121,7 +125,7 @@ buildneovim() {
     echo "packaging neovim. this may take up to TEN whole moments, depending on your computer's hardware." \
         && make CMAKE_BUILD_TYPE=RelWithDebInfo > /dev/null 2>&1
     echo "updating neovim!" && sudo make install > /dev/null 2>&1
-    echo "removing the old neovim." && sudo nala remove neovim -y > /dev/null 2>&1
+    echo "removing the old neovim." && sudo apt remove neovim -y > /dev/null 2>&1
     echo "For PATH to reset on neovim, close the terminal and open a new shell."
 }
 
