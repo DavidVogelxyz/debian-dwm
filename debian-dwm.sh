@@ -34,6 +34,7 @@ installloop() {
     "cmake"
     "curl"
     "git"
+    "stow"
     "unzip"
     "zsh"
     )
