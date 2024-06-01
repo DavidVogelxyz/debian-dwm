@@ -6,7 +6,7 @@
 
 installpkgs() {
     while read pkg; do
-        echo "'$pkg' is not yet installed on this computer. Installing '$pkg' now..."
+        echo "Installing '$pkg' now..."
         sudo apt install $pkg -y >/dev/null 2>&1
     done < package-list
 }

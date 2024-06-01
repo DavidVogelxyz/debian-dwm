@@ -55,6 +55,8 @@ sc
 socat
 suckless-tools
 task-spooler
+tmux
+tree
 ueberzug
 unclutter
 unzip
@@ -70,5 +72,5 @@ xwallpaper
 yt-dlp
 zathura
 zathura-pdf-poppler
-zsh-syntax-highlighting
 zsh
+zsh-syntax-highlighting

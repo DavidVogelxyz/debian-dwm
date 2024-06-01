@@ -15,6 +15,7 @@ pkgs=(
 "curl"
 "git"
 "zsh"
+"zsh-syntax-highlighting"
 )
 
 ################################
@@ -30,7 +31,7 @@ dependencychecks() {
 }
 
 installcomment() {
-    echo "'$pkg' is not yet installed on this computer. Installing '$pkg' now..."
+    echo "Installing '$pkg' now..."
 }
 
 installpkg() {
