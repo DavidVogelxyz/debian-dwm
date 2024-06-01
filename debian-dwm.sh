@@ -20,13 +20,14 @@ modules=(
 
 nalacheck() {
     echo "Updating package repositories..."
-    [ -e /usr/bin/nala ] && sudo nala update >/dev/null 2>&1
-    [ ! -e /usr/bin/nala ] && sudo apt update >/dev/null 2>&1 \
-        && pkg="nala" && installcomment && sudo apt install $pkg -y >/dev/null 2>&1
+    sudo apt update >/dev/null 2>&1
+
+    [ ! -e /usr/bin/nala ] && pkg="nala" \
+        && installcomment && installpkg
 }
 
 installcomment() {
-    echo "'$pkg' is not yet installed on this computer. Installing '$pkg' now..."
+    echo "Installing '$pkg' now..."
 }
 
 installloop() {
@@ -51,11 +52,11 @@ installpkg() {
 }
 
 installspecial() {
-    pkg="gettext" && [ ! -e /usr/lib/x86_64-linux-gnu/gettext ] \
+    [ ! -e /usr/lib/x86_64-linux-gnu/gettext ] && pkg="gettext" \
         && installcomment && installpkg
 
-    pkg="rg" && [ ! -e /usr/bin/$pkg ] \
-        && pkg="ripgrep" && installcomment && installpkg
+    [ ! -e /usr/bin/rg ] && pkg="ripgrep" \
+        && installcomment && installpkg
 }
 
 moduleloop() {
