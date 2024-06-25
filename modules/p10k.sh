@@ -47,6 +47,8 @@ installfonts() {
     echo "There are $(echo ${#fonts[@]}) fonts to install. It shouldn't take long."
     echo "Elevated privileges are required to properly install the fonts. Please enter your password if asked."
 
+    sudo mkdir -p /usr/local/share/fonts/m
+
     for font in "${fonts[@]}"; do
         webfont=$(echo $font | sed 's/_/%20/g')
         [ ! -e /usr/local/share/fonts/m/$font ] \
