@@ -1,5 +1,8 @@
 # debian-dwm
 
+> [!Note]
+> This repo has been archived -- the current implementation of this project is [linux-installer](https://github.com/DavidVogelxyz/linux-installer).
+
 A derivation of Luke Smith's LARBS that works on Debian systems, with my added preferences.
 
 I built some "module" bash scripts, tested them independently, and then created a "script of scripts" to run all the modules with one command.
